@@ -1,0 +1,1 @@
+# aws-parameters-and-secrets-lambda-extension-sample
