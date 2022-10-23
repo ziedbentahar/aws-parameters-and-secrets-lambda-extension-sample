@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: my awesome weather app
+
+Parameters:
+  DeploymentBucketName:
+    Type: String  
+  GetWeatherAndAirQualityLambdaZipFile:
+    Type: String
+  Environment:
+    Type: String
+    AllowedValues:
+      - dev
+      - stage
+      - prod
+
+Resources:
+  GetWeatherAndAirQualityLambda:
+    Type: AWS::CloudFormation::Stack
+    Properties: 
+      TemplateURL: ./components/get-weather-and-air-quality-lambda.yml
+      Parameters:
+        Application: awesome-weather
+        Environment: !Ref Environment
+        LambdaName: get-weather-and-air-quality-lambda
+        LambdaHandler: index.handler
+        LambdaBucketName: !Ref DeploymentBucketName
+        LambdaZipFile: !Ref GetWeatherAndAirQualityLambdaZipFile
+
+ 
+
+
+  Certificate: 
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./easy-reader-components/certificate.yml
+      Parameters:
+        Domain: !Ref Domain
+        HostedZoneId: !Ref HostedZoneId
+
+      
+        
