@@ -6,6 +6,8 @@ type City = {
   country: string;
 };
 
+const SECRET_NAME = "open-weather-api-key-secret";
+
 const openWeatherApi = "http://api.openweathermap.org/data/2.5";
 
 const getWeatherForCity = async (city: City, apiKey: string) => {
@@ -31,7 +33,7 @@ const getAirQualityForCity = async (city: City, apiKey: string) => {
 };
 
 const getWeatherAndAirQualityForCity = async (city: City) => {
-  const openWeatherApiKey = await getSecretValue("open-weather-api-key");
+  const openWeatherApiKey = await getSecretValue(SECRET_NAME);
 
   const [weather, airQuality] = await Promise.all([
     getWeatherForCity(city, openWeatherApiKey),
