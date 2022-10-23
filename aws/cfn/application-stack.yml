@@ -26,6 +26,7 @@ Resources:
         LambdaBucketName: !Ref DeploymentBucketName
         LambdaZipFile: !Ref GetWeatherAndAirQualityLambdaZipFile
         OpenWeatherApiKeySecretArn: !GetAtt OpenWeatherSecret.Outputs.OpenWeatherApiKeySecretArn
+        OpenWeatherApiKeySecretName: !GetAtt OpenWeatherSecret.Outputs.OpenWeatherApiKeySecretName
 
 
   OpenWeatherSecret: 

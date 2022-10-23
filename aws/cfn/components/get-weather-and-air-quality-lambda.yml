@@ -20,6 +20,8 @@ Parameters:
     Type: String
   LambdaZipFile:
     Type: String
+  OpenWeatherApiKeySecretName:
+    Type: String
 
 Resources:
   LambdaExecutionRole:
@@ -73,6 +75,9 @@ Resources:
       Runtime: nodejs16.x
       Timeout: 60
       MemorySize: 512
+      Environment:
+        Variables:
+          OPEN_WEATHER_APIKEY_SECRET_NAME: !Ref OpenWeatherApiKeySecretName
       Layers:
         - arn:aws:lambda:eu-west-1:015030872274:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2
 
