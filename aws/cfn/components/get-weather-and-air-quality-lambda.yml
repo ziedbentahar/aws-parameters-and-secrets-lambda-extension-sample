@@ -84,7 +84,7 @@ Resources:
       
 Outputs:
   LambdaFunctionArn:
-    Description: Lambda An
+    Description: Lambda Arn
     Value: !GetAtt LambdaFunction.Arn
     Export:
       Name: !Sub ${AWS::StackName}-get-weather-and-air-quality-lambda

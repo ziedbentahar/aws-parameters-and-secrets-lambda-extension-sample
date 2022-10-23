@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: awesome weather api gateway
+
+Parameters:
+  Environment:
+    Type: String
+    AllowedValues:
+      - dev
+      - stage
+      - prod
+  Application:
+    Type: String
+  GetWeatherAndAirQualityLambdaArn:
+    Type: String
+
+
+Resources:
+  AwesomeWeatherApi:
+      Type: AWS::ApiGatewayV2::Api
+      Properties:
+        Name: !Sub ${Application}-api-${Environment}
+        ProtocolType: HTTP
+        CorsConfiguration:
+          AllowHeaders:
+            - Authorization
+          AllowMethods:
+            - GET
+            - OPTIONS
+          AllowOrigins:
+            - '*'
+
+  GetWeatherAndAirQualityIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref AwesomeWeatherApi
+      Description: Get weather and air quality Lambda Integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetWeatherAndAirQualityLambdaArn}/invocations
+      IntegrationMethod: POST
+      PayloadFormatVersion: '2.0'
+
+  GetWeatherAndAirQualityRoute:
+    Type: AWS::ApiGatewayV2::Route
+    DependsOn:
+      - GetWeatherAndAirQualityIntegration
+    Properties:
+      ApiId: !Ref AwesomeWeatherApi
+      RouteKey: 'GET /weather-and-air-quality'
+      AuthorizationType: AWS_IAM
+      Target: !Join
+        - /
+        - - integrations
+          - !Ref GetWeatherAndAirQualityIntegration
+
+  AwesomeWeatherDeployment:
+    Type: AWS::ApiGatewayV2::Deployment
+    DependsOn:
+      - GetWeatherAndAirQualityRoute
+    Properties:
+      ApiId: !Ref AwesomeWeatherApi
+
+  V1Stage:
+    Type: AWS::ApiGatewayV2::Stage
+    DependsOn:
+      - AwesomeWeatherApi
+      - AwesomeWeatherDeployment
+    Properties:
+      StageName: v1
+      AutoDeploy: true
+      Description: v1 Stage
+      DeploymentId: !Ref AwesomeWeatherDeployment
+      ApiId: !Ref AwesomeWeatherApi
+
+  ApiGatewayInvokePermissionForGetWeatherAndAirQualityLambda:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: GetWeatherAndAirQualityLambdaArn
+      Principal: apigateway.amazonaws.com

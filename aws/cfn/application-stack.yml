@@ -28,6 +28,14 @@ Resources:
         OpenWeatherApiKeySecretArn: !GetAtt OpenWeatherSecret.Outputs.OpenWeatherApiKeySecretArn
         OpenWeatherApiKeySecretName: !GetAtt OpenWeatherSecret.Outputs.OpenWeatherApiKeySecretName
 
+  ApiGatewaty:
+    Type: AWS::CloudFormation::Stack
+    Properties: 
+      TemplateURL: ./components/api-gatewat.yml
+      Parameters:
+        Application: awesome-weather
+        Environment: !Ref Environment
+        GetWeatherAndAirQualityLambdaArn: !GetAtt GetWeatherAndAirQualityLambda.Outputs.LambdaFunctionArn
 
   OpenWeatherSecret: 
     Type: AWS::CloudFormation::Stack
