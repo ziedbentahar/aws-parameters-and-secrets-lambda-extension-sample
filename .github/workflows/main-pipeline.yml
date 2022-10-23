@@ -11,7 +11,7 @@ on:
 env:
   APPLICATION_NAME: awesome-weather
   DEPLOYMENT_BUCKET_NAME: awesome-weather-deployment-bucket
-  GET_WEATHER_COMPONENT_NAME: get-weather-and-air-quality
+  GET_WEATHER_COMPONENT_NAME: get-weather-and-air-quality-by-location
   
 
 jobs:
