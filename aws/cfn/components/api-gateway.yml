@@ -75,5 +75,5 @@ Resources:
     Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
-      FunctionName: GetWeatherAndAirQualityLambdaArn
+      FunctionName: !Ref GetWeatherAndAirQualityLambdaArn
       Principal: apigateway.amazonaws.com
