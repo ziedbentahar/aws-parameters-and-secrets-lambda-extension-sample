@@ -69,7 +69,7 @@ Resources:
       Handler: !Sub ${LambdaHandler}
       Role: !GetAtt LambdaExecutionRole.Arn
       Architectures:
-        - arm64
+        - x86
       Runtime: nodejs16.x
       Timeout: 60
       MemorySize: 512
