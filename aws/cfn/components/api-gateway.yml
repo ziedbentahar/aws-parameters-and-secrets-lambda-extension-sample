@@ -46,7 +46,6 @@ Resources:
     Properties:
       ApiId: !Ref AwesomeWeatherApi
       RouteKey: 'GET /weather-and-air-quality'
-      AuthorizationType: AWS_IAM
       Target: !Join
         - /
         - - integrations
