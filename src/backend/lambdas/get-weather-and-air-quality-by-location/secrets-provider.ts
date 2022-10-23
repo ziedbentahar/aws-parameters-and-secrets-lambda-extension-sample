@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
 const AWS_SECRETS_EXTENTION_HTTP_PORT = 2773;
-const AWS_SECRETS_EXTENTION_SERVER_ENDPOINT = `http://localhost/${AWS_SECRETS_EXTENTION_HTTP_PORT}/secretsmanager/get?secretId=`;
+const AWS_SECRETS_EXTENTION_SERVER_ENDPOINT = `http://localhost:${AWS_SECRETS_EXTENTION_HTTP_PORT}/secretsmanager/get?secretId=`;
 
 const getSecretValue = async (secretName: string) => {
   const url = `${AWS_SECRETS_EXTENTION_SERVER_ENDPOINT}${secretName}`;
