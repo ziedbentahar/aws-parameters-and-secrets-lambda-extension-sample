@@ -44,7 +44,7 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource: "arn:aws:logs:*:*:*"
-        - PolicyName: read open weather api key secret
+        - PolicyName: read-open-weather-api-key-secret
           PolicyDocument:
             Statement:
               - Effect: Allow
