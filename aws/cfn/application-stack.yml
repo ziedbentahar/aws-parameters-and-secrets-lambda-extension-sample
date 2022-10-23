@@ -29,13 +29,11 @@ Resources:
  
 
 
-  Certificate: 
+  OpenWeatherSecret: 
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: ./easy-reader-components/certificate.yml
-      Parameters:
-        Domain: !Ref Domain
-        HostedZoneId: !Ref HostedZoneId
+      TemplateURL: ./components/open-weather-api-key-secret.yml
+
 
       
         
