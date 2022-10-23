@@ -14,6 +14,12 @@ Parameters:
       - prod
 
 Resources:
+
+  OpenWeatherSecret: 
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./components/open-weather-api-key-secret.yml
+
   GetWeatherAndAirQualityLambda:
     Type: AWS::CloudFormation::Stack
     Properties: 
@@ -31,16 +37,12 @@ Resources:
   ApiGatewaty:
     Type: AWS::CloudFormation::Stack
     Properties: 
-      TemplateURL: ./components/api-gatewat.yml
+      TemplateURL: ./components/api-gateway.yml
       Parameters:
         Application: awesome-weather
         Environment: !Ref Environment
         GetWeatherAndAirQualityLambdaArn: !GetAtt GetWeatherAndAirQualityLambda.Outputs.LambdaFunctionArn
 
-  OpenWeatherSecret: 
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: ./components/open-weather-api-key-secret.yml
 
 
       
