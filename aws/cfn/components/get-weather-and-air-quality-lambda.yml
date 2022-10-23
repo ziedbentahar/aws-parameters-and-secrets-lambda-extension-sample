@@ -4,6 +4,8 @@ Description: Get Weather and air quality lambda
 Parameters:
   Application:
     Type: String
+  OpenWeatherApiKeySecretArn:
+    Type: String
   Environment:
     Type: String
     AllowedValues:
@@ -42,6 +44,14 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource: "arn:aws:logs:*:*:*"
+        - PolicyName: read open weather api key secret
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: !Ref OpenWeatherApiKeySecretArn
+
       
   LambdaLogGroup:
     Type: AWS::Logs::LogGroup
@@ -64,7 +74,7 @@ Resources:
       Timeout: 60
       MemorySize: 512
       Layers:
-      - arn:aws:lambda:eu-west-1:015030872274:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2
+        - arn:aws:lambda:eu-west-1:015030872274:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2
 
       
 Outputs:
