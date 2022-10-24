@@ -14,9 +14,14 @@ const getWeatherForCity = async (city: City, apiKey: string) => {
   const response = await fetch(url);
 
   if (!response.ok) {
+    throw new Error(
+      `Error occured while requesting weather. Response status was ${response.status}`
+    );
   }
 
-  return {};
+  const result = await response.json();
+
+  return result;
 };
 
 const getAirQualityForCity = async (city: City, apiKey: string) => {
@@ -25,9 +30,12 @@ const getAirQualityForCity = async (city: City, apiKey: string) => {
   const response = await fetch(url);
 
   if (!response.ok) {
+    throw new Error(
+      `Error occured while requesting weather. Response status was ${response.status}`
+    );
   }
 
-  return {};
+  return await response.json();
 };
 
 const getWeatherAndAirQualityForCity = async (city: City) => {

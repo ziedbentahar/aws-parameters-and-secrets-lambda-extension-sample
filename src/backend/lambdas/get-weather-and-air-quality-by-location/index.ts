@@ -5,15 +5,25 @@ export const handler = async (
   event: APIGatewayEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  const result = await getWeatherAndAirQualityForCity({
-    name: "Paris",
-    country: "FR",
-  });
+  const cityName = event.queryStringParameters?.["city"];
+  const country = event?.queryStringParameters?.["country"];
+
+  if (cityName && country) {
+    const result = await getWeatherAndAirQualityForCity({
+      name: cityName,
+      country,
+    });
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        ...result,
+      }),
+    };
+  }
 
   return {
-    statusCode: 200,
-    body: JSON.stringify({
-      ...result,
-    }),
+    statusCode: 400,
+    body: "missing country or city parameters",
   };
 };

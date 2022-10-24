@@ -23,6 +23,8 @@ Parameters:
   OpenWeatherApiKeySecretName:
     Type: String
 
+
+
 Resources:
   LambdaExecutionRole:
     Type: AWS::IAM::Role
