@@ -12,6 +12,9 @@ const getWeatherForCity = async (city: City, apiKey: string) => {
   const url = `${openWeatherApi}/weather?q=${city.name},${city.country}&units=metrics&appid=${apiKey}`;
 
   const response = await fetch(url);
+
+  console.log(JSON.stringify(response));
+
   if (response.status !== 200) {
     throw new Error(
       `Error occured while requesting weather. Response status was ${response.status}`
