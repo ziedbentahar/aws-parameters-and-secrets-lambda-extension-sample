@@ -9,6 +9,10 @@ export const handler = async (
   const country = event?.queryStringParameters?.["country"];
 
   if (cityName && country) {
+    console.log({
+      cityName,
+      country,
+    });
     const result = await getWeatherAndAirQualityForCity({
       name: cityName,
       country,
