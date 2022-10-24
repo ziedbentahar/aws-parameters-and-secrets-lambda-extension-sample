@@ -6,14 +6,13 @@ type City = {
   country: string;
 };
 
-const openWeatherApi = "http://api.openweathermap.org/data/2.5";
+const openWeatherApi = "https://api.openweathermap.org/data/2.5";
 
 const getWeatherForCity = async (city: City, apiKey: string) => {
   const url = `${openWeatherApi}/weather?q=${city.name},${city.country}&units=metrics&appid=${apiKey}`;
 
   const response = await fetch(url);
-  console.log(url);
-  if (!response.ok) {
+  if (response.status !== 200) {
     throw new Error(
       `Error occured while requesting weather. Response status was ${response.status}`
     );
@@ -29,7 +28,7 @@ const getAirQualityForCity = async (city: City, apiKey: string) => {
 
   const response = await fetch(url);
 
-  if (!response.ok) {
+  if (response.status !== 200) {
     throw new Error(
       `Error occured while requesting weather. Response status was ${response.status}`
     );

@@ -9,10 +9,6 @@ export const handler = async (
   const country = event?.queryStringParameters?.["country"];
 
   if (cityName && country) {
-    console.log({
-      cityName,
-      country,
-    });
     const result = await getWeatherAndAirQualityForCity({
       name: cityName,
       country,
@@ -28,6 +24,6 @@ export const handler = async (
 
   return {
     statusCode: 400,
-    body: "missing country or city parameters",
+    body: "Missing country or city parameters",
   };
 };
