@@ -23,6 +23,18 @@ Parameters:
   OpenWeatherApiKeySecretName:
     Type: String
 
+Mappings: 
+  RegionToLayerArnMap: 
+    us-east-1: 
+      "LayerArn": "arn:aws:lambda:us-east-1:177933569100:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+    us-east-2: 
+      "LayerArn": "arn:aws:lambda:us-east-2:590474943231:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+    eu-west-1: 
+      "LayerArn": "arn:aws:lambda:eu-west-1:015030872274:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+    eu-west-2: 
+      "LayerArn": "arn:aws:lambda:eu-west-2:133256977650:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+    eu-west-3: 
+      "LayerArn": "arn:aws:lambda:eu-west-3:780235371811:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
 
 
 Resources:
@@ -81,7 +93,7 @@ Resources:
         Variables:
           OPEN_WEATHER_APIKEY_SECRET_NAME: !Ref OpenWeatherApiKeySecretName
       Layers:
-        - arn:aws:lambda:eu-west-1:015030872274:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2
+        - !FindInMap [RegionToLayerArnMap, !Ref "AWS::Region", LayerArn]
 
       
 Outputs:

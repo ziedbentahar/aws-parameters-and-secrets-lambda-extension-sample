@@ -1,29 +1,6 @@
 import fetch from "node-fetch";
 import { getSecretValue } from "./secrets-provider";
-
-type City = {
-  name: string;
-  country: string;
-};
-
-type Coord = {
-  lon: number;
-  lat: number;
-};
-
-type WeatherData = {
-  coord: Coord;
-  weather: {
-    description: string;
-  };
-  temperatures: {
-    temp: number;
-    feels_like: number;
-    temp_min: number;
-    temp_max: number;
-    pressure: number;
-  };
-};
+import { City, Coord, WeatherData } from "./types";
 
 const openWeatherApi = "https://api.openweathermap.org/data/2.5";
 
