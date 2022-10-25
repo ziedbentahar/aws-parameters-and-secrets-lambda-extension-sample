@@ -6,9 +6,31 @@ type City = {
   country: string;
 };
 
+type Coord = {
+  lon: number;
+  lat: number;
+};
+
+type WeatherData = {
+  coord: Coord;
+  weather: {
+    description: string;
+  };
+  temperatures: {
+    temp: number;
+    feels_like: number;
+    temp_min: number;
+    temp_max: number;
+    pressure: number;
+  };
+};
+
 const openWeatherApi = "https://api.openweathermap.org/data/2.5";
 
-const getWeatherForCity = async (city: City, apiKey: string) => {
+const getWeatherForCity = async (
+  city: City,
+  apiKey: string
+): Promise<WeatherData> => {
   const url = `${openWeatherApi}/weather?q=${city.name},${city.country}&units=metrics&appid=${apiKey}`;
 
   const response = await fetch(url);
@@ -21,19 +43,19 @@ const getWeatherForCity = async (city: City, apiKey: string) => {
     );
   }
 
-  const result = await response.json();
+  const result = (await response.json()) as WeatherData;
 
   return result;
 };
 
-const getAirQualityForCity = async (city: City, apiKey: string) => {
-  const url = `${openWeatherApi}/air_pollution?q=${city.name},${city.country}&appid=${apiKey}`;
+const getAirQualityForCity = async (coord: Coord, apiKey: string) => {
+  const url = `${openWeatherApi}/air_pollution?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}`;
 
   const response = await fetch(url);
 
   if (response.status !== 200) {
     throw new Error(
-      `Error occured while requesting weather. Response status was ${response.status}`
+      `Error occured while requesting air quality. Response status was ${response.status}`
     );
   }
 
@@ -45,14 +67,15 @@ const getWeatherAndAirQualityForCity = async (city: City) => {
     process.env.OPEN_WEATHER_APIKEY_SECRET_NAME!
   );
 
-  const [weather, airQuality] = await Promise.all([
-    getWeatherForCity(city, openWeatherApiKey),
-    getAirQualityForCity(city, openWeatherApiKey),
-  ]);
+  const weatherData = await getWeatherForCity(city, openWeatherApiKey);
+  const airQualityData = await getAirQualityForCity(
+    weatherData.coord,
+    openWeatherApiKey
+  );
 
   return {
-    weather,
-    airQuality,
+    weatherData,
+    airQualityData,
   };
 };
 
